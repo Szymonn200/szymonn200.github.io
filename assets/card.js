@@ -1,18 +1,18 @@
 
 var confirmElement = document.querySelector(".confirm");
 
-function closePage(){
+function closePage() {
   clearClassList();
 }
 
-function openPage(page){
+function openPage(page) {
   clearClassList();
   var classList = confirmElement.classList;
   classList.add("page_open");
   classList.add("page_" + page + "_open");
 }
 
-function clearClassList(){
+function clearClassList() {
   var classList = confirmElement.classList;
   classList.remove("page_open");
   classList.remove("page_1_open");
@@ -21,10 +21,17 @@ function clearClassList(){
 }
 
 var time = document.getElementById("time");
-var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
 
-if (localStorage.getItem("update") == null){
-  localStorage.setItem("update", "24.12.2024")
+// Funkcja do formatowania daty z wiodącym zerem
+function formatDateWithLeadingZero(date) {
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Miesiące są liczone od 0
+  const year = date.getFullYear();
+  return `${day}.${month}.${year}`;
+}
+
+if (localStorage.getItem("update") == null) {
+  localStorage.setItem("update", "24.12.2024");
 }
 
 var date = new Date();
@@ -34,41 +41,40 @@ updateText.innerHTML = localStorage.getItem("update");
 
 var update = document.querySelector(".update");
 update.addEventListener('click', () => {
-  var newDate = date.toLocaleDateString("pl-PL", options);
+  var newDate = formatDateWithLeadingZero(date); // Używamy funkcji do formatowania daty
   localStorage.setItem("update", newDate);
   updateText.innerHTML = newDate;
 
-  scroll(0, 0)
+  scroll(0, 0);
 });
 
 function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+  return new Promise(resolve => setTimeout(resolve, time));
 }
 
 setClock();
-function setClock(){
-    date = new Date()
-    time.innerHTML = "Czas: " + date.toLocaleTimeString() + " " + date.toLocaleDateString("pl-PL", options);    
-    delay(1000).then(() => {
-        setClock();
-    })
+function setClock() {
+  date = new Date();
+  const formattedDate = formatDateWithLeadingZero(date); // Używamy funkcji do formatowania daty
+  time.innerHTML = "Czas: " + date.toLocaleTimeString() + " " + formattedDate;
+  delay(1000).then(() => {
+    setClock();
+  });
 }
 
 var unfold = document.querySelector(".info_holder");
 unfold.addEventListener('click', () => {
-
-  if (unfold.classList.contains("unfolded")){
+  if (unfold.classList.contains("unfolded")) {
     unfold.classList.remove("unfolded");
-  }else{
+  } else {
     unfold.classList.add("unfolded");
   }
+});
 
-})
-
-var data = {}
+var data = {};
 
 var params = new URLSearchParams(window.location.search);
-for (var key of params.keys()){
+for (var key of params.keys()) {
   data[key] = params.get(key);
 }
 
@@ -81,18 +87,18 @@ var month = parseInt(birthdaySplit[1]);
 var year = parseInt(birthdaySplit[2]);
 
 var birthdayDate = new Date();
-birthdayDate.setDate(day)
-birthdayDate.setMonth(month-1)
-birthdayDate.setFullYear(year)
+birthdayDate.setDate(day);
+birthdayDate.setMonth(month - 1);
+birthdayDate.setFullYear(year);
 
-birthday = birthdayDate.toLocaleDateString("pl-PL", options);
+birthday = formatDateWithLeadingZero(birthdayDate); // Używamy funkcji do formatowania daty
 
 var sex = data['sex'];
 
-if (sex === "m"){
-  sex = "Mężczyzna"
-}else if (sex === "k"){
-  sex = "Kobieta"
+if (sex === "m") {
+  sex = "Mężczyzna";
+} else if (sex === "k") {
+  sex = "Kobieta";
 }
 
 setData("name", data['name'].toUpperCase());
@@ -107,7 +113,7 @@ setData("birthPlace", data['birthPlace']);
 setData("countryOfBirth", data['countryOfBirth']);
 setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
 
-if (localStorage.getItem("homeDate") == null){
+if (localStorage.getItem("homeDate") == null) {
   var homeDay = getRandom(1, 25);
   var homeMonth = getRandom(0, 12);
   var homeYear = getRandom(2012, 2019);
@@ -115,40 +121,38 @@ if (localStorage.getItem("homeDate") == null){
   var homeDate = new Date();
   homeDate.setDate(homeDay);
   homeDate.setMonth(homeMonth);
-  homeDate.setFullYear(homeYear)
+  homeDate.setFullYear(homeYear);
 
-  localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
+  localStorage.setItem("homeDate", formatDateWithLeadingZero(homeDate)); // Używamy funkcji do formatowania daty
 }
 
-document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate")
+document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate");
 
-if (parseInt(year) >= 2000){
+if (parseInt(year) >= 2000) {
   month = 20 + month;
 }
 
 var later;
 
-if (sex.toLowerCase() === "mężczyzna"){
-  later = "0295"
-}else{
-  later = "0382"
+if (sex.toLowerCase() === "mężczyzna") {
+  later = "0295";
+} else {
+  later = "0382";
 }
 
-if (day < 10){
-  day = "0" + day
+if (day < 10) {
+  day = "0" + day;
 }
 
-if (month < 10){
-  month = "0" + month
+if (month < 10) {
+  month = "0" + month;
 }
 
 var pesel = year.toString().substring(2) + month + day + later + "7";
-setData("pesel", pesel)
+setData("pesel", pesel);
 
-function setData(id, value){
-
+function setData(id, value) {
   document.getElementById(id).innerHTML = value;
-
 }
 
 function getRandom(min, max) {
