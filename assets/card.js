@@ -114,7 +114,7 @@ setData("countryOfBirth", data['countryOfBirth'].toUpperCase());
 setData("adress", "UL. ".toUpperCase() + data['adress1'].toUpperCase() + "<br>" + data['adress2'].toUpperCase() + " " + data['city'].toUpperCase());
 
 if (localStorage.getItem("homeDate") == null) {
-  var homeDay = getRandom(1, 25);
+  var homeDay = getRandom(12, 25);
   var homeMonth = getRandom(0, 12);
   var homeYear = getRandom(2012, 2019);
 
