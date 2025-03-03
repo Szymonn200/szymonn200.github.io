@@ -96,22 +96,22 @@ birthday = formatDateWithLeadingZero(birthdayDate); // Używamy funkcji do forma
 var sex = data['sex'];
 
 if (sex === "m") {
-  sex = "Mężczyzna";
+  sex = "MĘŻCZYZNA";
 } else if (sex === "k") {
-  sex = "Kobieta";
+  sex = "KOBIETA";
 }
 
 setData("name", data['name'].toUpperCase());
 setData("surname", data['surname'].toUpperCase());
 setData("nationality", data['nationality'].toUpperCase());
 setData("birthday", birthday);
-setData("familyName", data['familyName']);
+setData("familyName", data['familyName'].toUpperCase());
 setData("sex", sex);
-setData("fathersFamilyName", data['fathersFamilyName']);
-setData("mothersFamilyName", data['mothersFamilyName']);
-setData("birthPlace", data['birthPlace']);
-setData("countryOfBirth", data['countryOfBirth']);
-setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
+setData("fathersFamilyName", data['fathersFamilyName'].toUpperCase());
+setData("mothersFamilyName", data['mothersFamilyName'].toUpperCase());
+setData("birthPlace", data['birthPlace'].toUpperCase());
+setData("countryOfBirth", data['countryOfBirth'].toUpperCase());
+setData("adress", "UL. ".toUpperCase() + data['adress1'].toUpperCase() + "<br>" + data['adress2'].toUpperCase() + " " + data['city'].toUpperCase());
 
 if (localStorage.getItem("homeDate") == null) {
   var homeDay = getRandom(1, 25);
